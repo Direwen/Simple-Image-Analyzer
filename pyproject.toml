@@ -8,4 +8,7 @@ dependencies = [
     "fastapi[standard]>=0.120.1",
     "numpy>=2.3.4",
     "opencv-python>=4.11.0.86",
+    "psycopg2-binary>=2.9.11",
+    "python-dotenv>=1.2.1",
+    "sqlalchemy>=2.0.44",
 ]

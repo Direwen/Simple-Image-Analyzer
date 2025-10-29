@@ -37,7 +37,28 @@ async def analyze_image(file: UploadFile = File(...)):
     
     try:
         
-        pass
+        # Convert the bytes of img into np array of uint8 (1D)
+        nparr = np.frombuffer(image_in_bytes, np.uint8)
+        # Decodes nparr into the actual image matrix (3D)
+        img_color = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        if not img_color:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid image file or unsupported format."
+            ) 
+        
+        img_analyzer = ImageAnalyzer(img_color)
+        analysis = img_analyzer.get_analysis_data()
+        processed_image_arr = img_analyzer.get_processed_image_with_highlights()
+        # filename, save_path = ImageAnalyzer.save_image(
+        #     processed_image_arr, 
+        #     RESULTS_DIR, 
+        #     file.filename
+        # )
+        # processed_url = request.url_for('results', path=filename)
+        return {
+            **analysis,
+        }
         
     except Exception as e:
         
@@ -45,5 +66,5 @@ async def analyze_image(file: UploadFile = File(...)):
 
     
     # 4. The API should be fully testable via Swagger/OpenApi UI at /docs.
-    # 5. Store results in a MySQL database with columns: id, filename, average_brightness, brightest_value, darkest_value, created_at
+    # 5. Store the analysis results in a MySQL database with columns: id, filename, average_brightness, brightest_value, darkest_value, created_at
     # 6. Include a /download/{filename} endpoint to download the processed image.
