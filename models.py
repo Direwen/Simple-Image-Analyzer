@@ -1,6 +1,6 @@
 import datetime
 import sqlalchemy as sql
-from database import Base 
+from database import Base
 
 
 class AnalysisRecord(Base):
@@ -11,7 +11,4 @@ class AnalysisRecord(Base):
     average_brightness = sql.Column(sql.Float)
     brightest_value = sql.Column(sql.Float)
     darkest_value = sql.Column(sql.Float)
-    created_at = sql.Column(
-        sql.DateTime, 
-        default=datetime.datetime.utcnow
-    )
+    created_at = sql.Column(sql.DateTime, default=datetime.datetime.utcnow)
