@@ -30,8 +30,6 @@ def get_db():
     try:
         # yield the db session to the route handler
         yield db
-        # Commit the transaction
-        db.commit()
     except Exception as e:
         db.rollback()
         raise e
